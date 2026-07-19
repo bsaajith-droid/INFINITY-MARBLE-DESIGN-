@@ -361,6 +361,9 @@ export function QuotationTemplate() {
               <p className="text-[8pt] text-[#6b6b6b]">
                 Infinity Marble Design
               </p>
+              <p className="text-[8pt] text-[#6b6b6b]">
+                Mob / WhatsApp: +974 66625661
+              </p>
             </div>
             <div className="w-[55mm] text-center">
               <div className="border-t border-[#1a1a1a] pt-1 text-[9pt] font-semibold">
@@ -371,6 +374,11 @@ export function QuotationTemplate() {
               </p>
             </div>
           </div>
+
+          {/* Footer contact */}
+          <p className="mt-4 text-center text-[8.5pt] font-medium tracking-wide text-[#a8862d]">
+            For inquiries &amp; orders — Mobile / WhatsApp Business: +974 66625661
+          </p>
         </div>
       </div>
     </main>
