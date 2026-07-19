@@ -20,6 +20,7 @@ import {
   CheckCircle,
   Warehouse,
   Users,
+  Upload,
 } from "lucide-react"
 
 export default function DashboardPage() {
@@ -69,10 +70,10 @@ export default function DashboardPage() {
   ]
 
   const quickActions = [
+    { title: "Customers", href: "/dashboard/customers", icon: Users },
+    { title: "Upload Vanities", href: "/dashboard/products", icon: Upload },
     { title: "Create Quote", href: "/dashboard/quotes", icon: FileText },
-    { title: "View Inventory", href: "/dashboard/inventory", icon: Package },
     { title: "Manage Projects", href: "/projects", icon: FolderOpen },
-    { title: "View Invoices", href: "/dashboard/invoices", icon: DollarSign },
   ]
 
   return (

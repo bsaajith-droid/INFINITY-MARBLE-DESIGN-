@@ -1,8 +1,24 @@
 import { betterAuth } from 'better-auth'
+import { APIError, createAuthMiddleware } from 'better-auth/api'
 import { pool } from '@/lib/db'
+
+// Only these emails are allowed to register as admins.
+const ALLOWED_SIGNUP_EMAILS = ['infinitymarbledesign@gmail.com']
 
 export const auth = betterAuth({
   database: pool,
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      if (ctx.path === '/sign-up/email') {
+        const email = String(ctx.body?.email ?? '').toLowerCase().trim()
+        if (!ALLOWED_SIGNUP_EMAILS.includes(email)) {
+          throw new APIError('FORBIDDEN', {
+            message: 'This email is not authorized to create an account.',
+          })
+        }
+      }
+    }),
+  },
   baseURL:
     process.env.BETTER_AUTH_URL ??
     (process.env.VERCEL_PROJECT_PRODUCTION_URL

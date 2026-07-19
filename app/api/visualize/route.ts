@@ -1,9 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import * as fal from "@fal-ai/serverless-client"
-
-fal.config({
-  credentials: process.env.FAL_KEY,
-})
+import { experimental_generateImage as generateImage } from "ai"
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,29 +10,23 @@ export async function POST(request: NextRequest) {
     }
 
     // Create an enhanced prompt for interior design visualization
-    const enhancedPrompt = `Professional interior design photo of a ${roomType || "luxury room"} featuring ${material || "marble"} surfaces. ${prompt}. Style: ${style || "modern luxury"}. High-end architectural photography, photorealistic, 8K quality, natural lighting, elegant and sophisticated design.`
+    const enhancedPrompt = `Professional interior design photo of a ${roomType || "luxury room"} featuring ${material || "marble"} surfaces. ${prompt}. Style: ${style || "modern luxury"}. High-end architectural photography, photorealistic, natural lighting, elegant and sophisticated design.`
 
-    const result = await fal.subscribe("fal-ai/flux/schnell", {
-      input: {
-        prompt: enhancedPrompt,
-        image_size: "landscape_16_9",
-        num_inference_steps: 4,
-        num_images: 1,
-      },
+    const { image } = await generateImage({
+      model: "openai/gpt-image-1",
+      prompt: enhancedPrompt,
+      size: "1536x1024",
     })
 
-    const imageUrl = result.images?.[0]?.url
-
-    if (!imageUrl) {
-      throw new Error("No image generated")
-    }
+    // Return a data URL the client can render and download directly
+    const imageUrl = `data:${image.mediaType};base64,${image.base64}`
 
     return NextResponse.json({ imageUrl })
   } catch (error) {
-    console.error("Error generating visualization:", error)
+    console.error("[v0] Error generating visualization:", error)
     return NextResponse.json(
       { error: "Failed to generate visualization" },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }

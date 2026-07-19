@@ -2,6 +2,7 @@ import React from "react"
 import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ChatWidget } from '@/components/chat-widget'
 import './globals.css'
 
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif" });
@@ -47,6 +48,7 @@ export default function RootLayout({
     <html lang="en" className="bg-background">
       <body className={`${playfair.variable} ${inter.variable} font-sans antialiased`}>
         {children}
+        <ChatWidget />
         <Analytics />
       </body>
     </html>
