@@ -73,9 +73,16 @@ export function QuotationTemplate() {
     <main className="flex min-h-screen flex-col items-center gap-4 py-8 print:py-0">
       {/* Toolbar */}
       <div className="no-print flex w-[210mm] max-w-full items-center justify-between px-2">
-        <h1 className="font-serif text-xl font-semibold text-foreground">
-          Quotation Editor
-        </h1>
+        <div className="flex items-center gap-3">
+          <img
+            src="/logo.png"
+            alt="Infinity Marble Design logo"
+            className="h-10 w-10 rounded-md object-cover"
+          />
+          <h1 className="font-serif text-xl font-semibold text-foreground">
+            Quotation Editor
+          </h1>
+        </div>
         <div className="flex gap-2">
           <button
             type="button"

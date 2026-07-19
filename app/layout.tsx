@@ -12,6 +12,16 @@ export const metadata: Metadata = {
   title: 'Quotation | Infinity Marble Design',
   description:
     'Create professional A4 quotations for Infinity Marble Design, Doha, Qatar.',
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
+  openGraph: {
+    title: 'Quotation | Infinity Marble Design',
+    description:
+      'Create professional A4 quotations for Infinity Marble Design, Doha, Qatar.',
+    images: ['/logo.png'],
+  },
 }
 
 export default function RootLayout({
