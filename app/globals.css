@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Inter', 'Inter Fallback', sans-serif;
+  --font-serif: 'Cormorant Garamond', 'Cormorant Garamond Fallback', serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --radius: 0.375rem;
+}
+
+:root {
+  --background: #ece9e2;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --primary: #a8862d;
+  --primary-foreground: #ffffff;
+  --muted: #f5f2ec;
+  --muted-foreground: #6b6b6b;
+  --accent: #1a1a1a;
+  --accent-foreground: #ffffff;
+  --border: #d9d2c4;
+}
+
+/* ---------- A4 sheet ---------- */
+.a4-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  background-image: url('/letterhead.jpeg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+}
+
+/* Inputs that blend into the document */
+.doc-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+}
+.doc-input::placeholder {
+  color: #b5ab97;
+}
+.doc-input:focus {
+  background: #faf6ec;
+}
+
+/* ---------- Print ---------- */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  body {
+    background: #ffffff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .a4-sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .doc-input::placeholder {
+    color: transparent;
+  }
+}
