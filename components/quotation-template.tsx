@@ -369,7 +369,7 @@ export function QuotationTemplate() {
                 Infinity Marble Design
               </p>
               <p className="text-[8pt] text-[#6b6b6b]">
-                Mob / WhatsApp: +974 55817661
+                Mob / WhatsApp: +974 66625661
               </p>
             </div>
             <div className="w-[55mm] text-center">
@@ -386,12 +386,12 @@ export function QuotationTemplate() {
           <p className="mt-4 text-center text-[8.5pt] font-medium tracking-wide text-[#a8862d]">
             {'For inquiries & orders, send directly on our Business WhatsApp: '}
             <a
-              href="https://wa.me/97455817661"
+              href="https://wa.me/97466625661"
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold underline decoration-[#a8862d]/50 underline-offset-2"
             >
-              +974 55817661
+              +974 66625661
             </a>
           </p>
         </div>
