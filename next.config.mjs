@@ -6,7 +6,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  serverExternalPackages: ['drizzle-orm', 'pg', 'better-auth'],
+  serverExternalPackages: ['drizzle-orm', 'better-auth'],
 }
 
 export default nextConfig

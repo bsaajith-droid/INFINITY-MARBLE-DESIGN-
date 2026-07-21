@@ -1,9 +1,13 @@
-import { drizzle } from 'drizzle-orm/node-postgres'
-import { Pool } from 'pg'
+import { drizzle } from 'drizzle-orm/neon-serverless'
+import { Pool } from '@neondatabase/serverless'
 import * as schema from './schema'
 
 const connectionString =
   process.env.DATABASE_URL ?? process.env.POSTGRES_URL ?? process.env.POSTGRES_PRISMA_URL
+
+if (!connectionString) {
+  throw new Error('DATABASE_URL is not set')
+}
 
 export const pool = new Pool({ connectionString })
 
