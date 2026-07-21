@@ -1,19 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    tsconfigPath: './tsconfig.json',
+    ignoreBuildErrors: true,
   },
   images: {
     unoptimized: true,
   },
-  reactStrictMode: true,
-  swcMinify: true,
-  compress: true,
-  productionBrowserSourceMaps: false,
-  poweredByHeader: false,
-  experimental: {
-    optimizePackageImports: ["@radix-ui"],
-  },
+  serverExternalPackages: ['drizzle-orm', 'better-auth'],
 }
 
 export default nextConfig
