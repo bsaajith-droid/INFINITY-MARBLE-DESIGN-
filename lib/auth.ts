@@ -11,7 +11,12 @@ export const auth = betterAuth({
     before: createAuthMiddleware(async (ctx) => {
       if (ctx.path === '/sign-up/email') {
         const email = String(ctx.body?.email ?? '').toLowerCase().trim()
-        if (!ALLOWED_SIGNUP_EMAILS.includes(email)) {
+
+        // The very first account can always be created (the owner).
+        const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM "user"')
+        const isFirstUser = (rows[0]?.count ?? 0) === 0
+
+        if (!isFirstUser && !ALLOWED_SIGNUP_EMAILS.includes(email)) {
           throw new APIError('FORBIDDEN', {
             message: 'This email is not authorized to create an account.',
           })
