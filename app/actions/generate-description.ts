@@ -12,7 +12,7 @@ type DescriptionInput = {
   finish?: string
 }
 
-export async function generateProductDescription(input: DescriptionInput) {
+export async function generateProductDescription(input: DescriptionInput): Promise<string> {
   const session = await auth.api.getSession({ headers: await headers() })
   if (!session?.user) throw new Error("Unauthorized")
 
@@ -20,7 +20,7 @@ export async function generateProductDescription(input: DescriptionInput) {
 
   const details = [
     `Product name: ${input.name}`,
-    `Category: ${input.category}`,
+    `Category: ${input.category.replace(/-/g, " ")}`,
     input.origin ? `Origin: ${input.origin}` : null,
     input.finish ? `Finish/Size: ${input.finish}` : null,
   ]
@@ -30,7 +30,7 @@ export async function generateProductDescription(input: DescriptionInput) {
   const { text } = await generateText({
     model: nvidia(NVIDIA_CHAT_MODEL),
     system:
-      "You write elegant, concise product descriptions for INFINITY MARBLE DESIGN, a luxury marble, granite, and porcelain tiles company in Doha, Qatar. Write 2-3 sentences, sophisticated but clear, highlighting craftsmanship, material beauty, and suitability for luxury interiors. No headings, no bullet points, no quotes around the text, no invented measurements or prices.",
+      "You write elegant, concise product descriptions for INFINITY MARBLE DESIGN, a luxury marble, granite, and porcelain tiles company in Doha, Qatar. Write 2-3 sentences, sophisticated but factual tone, highlighting craftsmanship, material qualities, and suitability for luxury interiors. No headings, no bullet points, no quotes around the text, no invented measurements or prices.",
     prompt: `Write a product description for:\n${details}`,
   })
 

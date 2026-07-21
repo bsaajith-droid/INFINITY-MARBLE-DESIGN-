@@ -3,7 +3,6 @@
 import { useState, useRef } from "react"
 import Image from "next/image"
 import { createProduct, deleteProduct, type ProductInput } from "@/app/actions/products"
-import { generateProductDescription } from "@/app/actions/generate-description"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -18,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Upload, Trash2, Loader2, ImageIcon, Package, CheckCircle, Sparkles } from "lucide-react"
+import { generateProductDescription } from "@/app/actions/generate-description"
 
 type Product = {
   id: string
@@ -60,7 +60,7 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
   const [form, setForm] = useState<ProductInput>(emptyForm)
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [writing, setWriting] = useState(false)
+  const [generating, setGenerating] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -135,28 +135,6 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
   }
 
   const categoryName = (id: string) => CATEGORIES.find((c) => c.id === id)?.name ?? id
-
-  const handleWriteWithAI = async () => {
-    if (!form.name.trim()) {
-      setError("Enter a product name first, then let AI write the description")
-      return
-    }
-    setError("")
-    setWriting(true)
-    try {
-      const description = await generateProductDescription({
-        name: form.name,
-        category: categoryName(form.category),
-        origin: form.origin || undefined,
-        finish: form.finish || undefined,
-      })
-      setForm((f) => ({ ...f, description }))
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to generate description")
-    } finally {
-      setWriting(false)
-    }
-  }
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">
@@ -280,7 +258,40 @@ export function ProductManager({ initialProducts }: { initialProducts: Product[]
               </div>
 
               <div>
-                <Label htmlFor="description" className="mb-2 block">Description (optional)</Label>
+                <div className="mb-2 flex items-center justify-between">
+                  <Label htmlFor="description">Description (optional)</Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    disabled={generating || !form.name.trim()}
+                    onClick={async () => {
+                      setError("")
+                      setGenerating(true)
+                      try {
+                        const text = await generateProductDescription({
+                          name: form.name,
+                          category: form.category,
+                          origin: form.origin,
+                          finish: form.finish,
+                        })
+                        setForm((f) => ({ ...f, description: text }))
+                      } catch (err) {
+                        setError(err instanceof Error ? err.message : "Failed to generate description")
+                      } finally {
+                        setGenerating(false)
+                      }
+                    }}
+                    className="h-7 gap-1 px-2 text-xs text-gold hover:text-gold-light"
+                  >
+                    {generating ? (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    ) : (
+                      <Sparkles className="h-3 w-3" />
+                    )}
+                    {generating ? "Writing..." : "Generate with AI"}
+                  </Button>
+                </div>
                 <Textarea
                   id="description"
                   value={form.description}
